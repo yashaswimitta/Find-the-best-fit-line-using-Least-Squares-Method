@@ -20,88 +20,67 @@ To implement univariate Linear Regression to fit a straight line using least squ
 ```
 /*
 Program to implement univariate Linear Regression to fit a straight line using least squares.
-Developed by: Yashaswi Mitta
-RegisterNumber:  212221230062
+Developed by: B DHIVYA SHRI
+RegisterNumber:  212221230009
 */
 
-import numpy as np
-import pandas as pd
+# least square method
+
 import matplotlib.pyplot as plt
-data = pd.read_csv("ex1.txt",header=None)
-data
+x=[5,6,3,2,6,7,1,2]
+y=[2,3,6,5,8,3,5,8]
+plt.scatter(x,y);
+plt.plot(x,y)
+plt.show()
 
-plt.scatter(data[0],data[1])
-plt.xticks(np.arange(5,30,step=5))
-plt.yticks(np.arange(-5,30,step=5))
-plt.xlabel("Population of City(10,000s)")
-plt.ylabel("Profit($10,000)")
-plt.title("Profit prediction")
+import numpy as np
+import matplotlib.pyplot as plt
 
-def computeCost(X,y,theta):
-  m = len(y)
-  h = X.dot(theta)
-  square_err = (h-y)**2
-  return 1/(2*m) * np.sum(square_err)
+# assign input
 
-  data1 = data.values
-m = data1[:,0].size
-X = np.append(np.ones((m,1)),data1[:,0].reshape(m,1),axis=1)
-y = data1[:,1].reshape(m,1)
-theta = np.zeros((2,1)) 
-print("The value is : ",computeCost(X,y,theta))
+X=np.array([0,1,2,3,4,5,6,7,8,9])
+Y=np.array([1,3,2,5,7,8,8,9,10,12])
 
+# mean values of input
 
-def gradientdescent(X,y,theta,alpha,numiter):
-  m = len(y)
-  hist = []
+X_mean=np.mean(X)
+print(X_mean)
+Y_mean=np.mean(Y)
+print(Y_mean)
 
-  for i in range(numiter):
-    predictions = X.dot(theta)
-    error = np.dot(X.transpose(),(predictions-y))
-    descent = alpha * 1/m * error
-    theta -= descent
-    hist.append(computeCost(X,y,theta)) 
-  return theta,hist
+num=0
+denum=0
 
-  theta ,hist = gradientdescent(X,y,theta,0.01,1500)
-print("h(x) = "+str(round(theta[0,0],2))+" + "+str(round(theta[1,0],2))+"x1")
+for i in range (len(X)):
+  num+=(X[i]-X_mean)*(Y[i]-Y_mean)
+  denum+=(X[i]-X_mean)**2
+  
+# find m
 
-plt.figure(figsize = (7,7))
-plt.plot(hist)
-plt.xlabel("Iterations")
-plt.ylabel("$J(\Theta)$")
-plt.title("Cost function using Gradient Descent")
+m=num/denum
+print(m)
 
-plt.figure(figsize = (7,7))
-plt.scatter(data[0],data[1])
-xval = [x for x in range(25)]
-yval = [y*theta[1] + theta[0] for y in xval]
-plt.plot(xval,yval,color='purple')
-plt.xticks(np.arange(5.30,step=5))
-plt.yticks(np.arange(-5,30,step=5))
-plt.xlabel("Population of city (10,000s)")
-plt.ylabel("Profit ($ 10,1000)")
-plt.title("Profit Prediction")
+# find b
 
-def predict(x,theta):
-  predictions = np.dot(theta.transpose(),x)
-  return predictions[0]
+b=Y_mean-m*X_mean
+print(b)
 
-predict1 = predict(np.array([1,3.5]),theta)*10000
-print("For population of 35,000, we pewdict a profit of $ "+str(round(predict1,0)))
+# find Y_pred
 
-predict2 = predict(np.array([1,7]),theta)*10000
-print("For population of 70,000, we pewdict a profit of $ "+str(round(predict2,0)))
+Y_pred=m*X+b
+print(Y_pred)
 
+# plot graph
+
+plt.scatter(X,Y)
+plt.plot(X,Y_pred,color='green')
+plt.show()
 ```
 
 ## Output:
-<img width="940" alt="ML" src="https://user-images.githubusercontent.com/94505585/194759855-c38ae9ac-3ce5-4024-9619-5fddd21d240c.png">
-<img width="893" alt="2022-10-09 (6)" src="https://user-images.githubusercontent.com/94505585/194759883-be2dd70b-b90f-4197-a079-37a33e12dc7d.png">
-<img width="932" alt="2022-10-09 (7)" src="https://user-images.githubusercontent.com/94505585/194759906-2a6fb81c-adda-457a-bd9e-99a7590063a3.png">
-<img width="934" alt="2022-10-09 (8)" src="https://user-images.githubusercontent.com/94505585/194759920-15d3f779-368f-46c0-ad8a-07bed814e831.png">
-<img width="777" alt="2022-10-09 (9)" src="https://user-images.githubusercontent.com/94505585/194759930-064cefcf-262f-47a9-abc4-3ec317b5c99d.png">
-
+<img width="918" alt="2022-10-09 (19)" src="https://user-images.githubusercontent.com/94505585/194764009-f0ddd75b-a1e0-4bf1-bc1a-bc4fe000c344.png">
+<img width="900" alt="2022-10-09 (20)" src="https://user-images.githubusercontent.com/94505585/194764018-c3e7f124-c5bf-4747-accd-9948bfb1d6b6.png">
+<img width="913" alt="2022-10-09 (22)" src="https://user-images.githubusercontent.com/94505585/194764028-6aadc500-5fc1-402c-95b8-8cf17b0c5e80.png">
 
 ## Result:
 Thus the univariate Linear Regression was implemented to fit a straight line using least squares using python programming.
